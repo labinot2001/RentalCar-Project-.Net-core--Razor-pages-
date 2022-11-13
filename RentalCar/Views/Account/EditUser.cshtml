@@ -1,0 +1,78 @@
+﻿@using RentalCar.Data
+@using RentalCar.Data.ViewModels
+@model EditUserVM
+
+@{
+    ViewData["Title"] = "Edit your data";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+}
+
+
+
+<div class="row">
+    <div style="margin-top:100px" class="col-md-6 offset-3">
+        <p>
+            <h4>Please fill your true data</h4>
+        </p>
+        @*@if (TempData["Error"] != null)
+            {
+                <div class="col-md-12 alert alert-danger">
+                    <span class="text-danger"><b>Sorry! </b>  - @TempData["Error"]</span>
+                </div>
+            }*@
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-controller="Account" asp-action="EditUser">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="FullName" class="control-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmailAddress" class="control-label"></label>
+                        <input asp-for="EmailAddress" class="form-control" />
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                    </div>
+                    @*<div class="form-group">
+                            <label asp-for="UserName" class="control-label"></label>
+                            <input asp-for="UserName" class="form-control" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>*@
+                    <div class="form-group">
+                        <label asp-for="DrivingLicenseID" class="control-label"></label>
+                        <input asp-for="DrivingLicenseID" class="form-control" />
+                        <span asp-validation-for="DrivingLicenseID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="City" class="control-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Payment" class="control-label"></label>
+                        <select asp-for="Payment" class="form-control" asp-items="Html.GetEnumSelectList<Payment>()"></select>
+                        <span asp-validation-for="Payment" class="text-danger"></span>
+                    </div>                   
+                    <div class="form-group">
+                        <input class="btn btn-outline-success float-right" type="submit" value="Finish" />
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

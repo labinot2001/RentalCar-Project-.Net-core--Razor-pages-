@@ -1,0 +1,84 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList
+
+@model IPagedList<Contact>
+
+@{
+    ViewBag.Title = "Index";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@*Write Code*@
+
+
+<div class="row">
+    @using (Html.BeginForm("Index", "Contact", FormMethod.Get))
+    {
+        <p style="margin-top:10px; margin-left:20px">
+            Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        </p>
+    }
+    <div class="col-md-12 ">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("Full Name", "", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Email", "", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Subject", "", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Message", "", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Subject)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Message)
+                        </td>
+                        <td>
+                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"> <i class="bi bi-trash"></i> Delete </a>
+                        </td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<br />
+
+<button class="btn-outline-primary">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+</button>
+<br />
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+
+
+
+

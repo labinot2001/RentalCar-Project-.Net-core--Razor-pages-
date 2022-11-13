@@ -1,0 +1,89 @@
+﻿@using RentalCar.Data.ViewModels;
+@using RentalCar.Data;
+@model RegisterVM;
+
+@{
+    ViewData["Title"] = "Sing up for new account";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+}
+
+
+
+<div class="row">
+    <div style="margin-top:100px" class="col-md-6 offset-3">
+        <p>
+            <h4>Sing up for new account</h4>
+        </p>
+        @if (TempData["Error"] != null)
+        {
+            <div class="col-md-12 alert alert-danger">
+                <span class="text-danger"><b>Sorry! </b>  - @TempData["Error"]</span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Register">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="FullName" class="control-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmailAddress" class="control-label"></label>
+                        <input asp-for="EmailAddress" class="form-control" />
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <hr /> <b>*Optional Data(Needed for Rent a Car in the future)</b>
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="DrivingLicenseID" class="control-label"></label>
+                        <input asp-for="DrivingLicenseID" class="form-control" />
+                        <span asp-validation-for="DrivingLicenseID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="City" class="control-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Payment" class="control-label"></label>
+                        <select asp-for="Payment" class="form-control" asp-items="Html.GetEnumSelectList<Payment>()"></select>
+                        <span asp-validation-for="Payment" class="text-danger"></span>
+                    </div>
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <div class="col">
+                            <div class="card">
+                                <select asp-for="Payment" class="form-control" asp-items="Html.GetEnumSelectList<Payment>()"></select>
+                                <img src="~/assets/images/about-1-570x350.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-outline-success float-right" type="submit" value="Sing up" />
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+﻿@model int;
+
+@if (Model > 0)
+{
+    <li class="nav-item @(ViewBag.Current == "ShoppingCart" ? "active" : "")">
+        <a style="display: flex;" class="nav-link btn-outline-info" asp-controller="Orders" asp-action="ShoppingCart">
+            <i style="margin-right:2px" class="bi bi-cart4"></i> @Model
+        </a>
+    </li>
+}

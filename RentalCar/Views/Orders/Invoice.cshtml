@@ -1,0 +1,68 @@
+﻿@model List<Order>
+
+@{
+    ViewData["Title"] = "Invoice";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div class="row">
+    <div style="margin-top:170px; margin-bottom:50px;" class="col-md-10 offset-1">
+        <p>
+            <h4>Invoice Details</h4>
+        </p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Duration day</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Driving license</th>
+                    <th>Address</th>
+                    <th>Payment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Where(n => n.Id > Model.Count - 1))
+                {
+                    <tr>
+                        <td class="align-middle">@order.Id</td>
+                        <td class="align-middle">
+                            <ul style="list-style-type:none">
+                                @foreach (var item in order.OrderItems)
+                                {
+                                    <li>
+                                        <div class="alert alert-info" role="alert">
+                                            <span class="badge bg-success">@item.Amount</span> [@item.Price.ToString("c")] - @item.Car.Name
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @order.OrderItems.Select(m => m.Car.Price * m.Amount).Sum().ToString("c")
+                        </td>
+
+                        <td class="align-middle">
+                            from  @order.OrderItems.Select(m => m.Car.StartDate.ToString("d")).FirstOrDefault() to @order.OrderItems.Select(m => m.Car.EndDate.ToString("d")).FirstOrDefault()
+
+                        </td>
+
+
+                        <td class="align-middle">@order.User.FullName</td>
+                        <td class="align-middle">@order.User.Email</td>
+                        <td class="align-middle">@order.User.DrivingLicenseID</td>
+                        <td class="align-middle">@order.User.City / @order.User.Address</td>
+                        <td class="align-middle">@order.User.Payment</td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,171 @@
+﻿@using RentalCar.Data.ViewModels
+@model OffersVM
+
+@{
+    ViewData["Title"] = "Mercedes Category";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+}
+
+<!-- Page Content -->
+<ul style="padding-top:100px" class="nav justify-content-center">
+    @foreach (var item in Model.Brands)
+    {
+        <li style="display:flex; justify-content:center;flex-direction:column" class="nav-item col-md-2">
+            <img src="@item.ProfilePictureURL" style="height:70%" alt="Alternate Text" />
+            <a style="color:black;text-align:center;" class="nav-link active" aria-current="page" href="#"><b>@item.FullName</b> </a>
+        </li>
+    }
+
+</ul>
+<hr />
+<div class="products">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.Cars)
+            {
+                <div class="col-md-4 col-xs-6 border-primary mb-3">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-header text-white bg-dark">
+                                    <p class="card-text">
+                                        <h5 class="card-title">
+                                            @item.Name
+                                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                            {
+                                                <a class="text-white float-right"asp-controller="Cars" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                            }
+                                        </h5>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <img src="@item.ImageURL" width="125%" height="90%" alt="@item.Name">
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <p class="card-text">@item.Description</p>
+                                    <p class="card-text"><b>Rental: </b>@item.Rental.Name</p>
+                                    <p class="card-text"><b>Category: </b>@item.CarCategory</p>
+                                    <p class="card-text"><b>Start Date: </b>@item.StartDate.ToString("dd MMM yy")</p>
+                                    <p class="card-text"><b>End Date: </b>@item.EndDate.ToString("dd MMM yy")</p>
+                                    <p class="card-text ">
+                                        <b>Status: </b>
+                                        @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                        {
+                                            <span class="badge bg-success text-white">AVAILABLE</span> }
+                                        else if (DateTime.Now > item.EndDate)
+                                        {
+                                            <span class="badge bg-danger text-white">EXPIRED</span> }
+                                        else
+                                        {
+                                            <span class="badge bg-primary text-white">UPCOMING</span>}
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card-footer ">
+                                    <p class="card-text">
+                                        <a style="width:70%; font-size:13px;" class="btn btn-success text-white @((DateTime.Now > item.EndDate) ? " disabled" : "" )"
+                                           asp-controller="Orders"
+                                           asp-action="AddItemToShoppingCart"
+                                           asp-route-id="@item.Id">
+                                            <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))
+                                        </a>
+                                        <a style="width:40%; font-size:13px;" class="btn btn-outline-dark float-right " asp-controller="Cars" asp-action="DetailsHome" asp-route-id="@item.Id">
+                                            <i class="bi bi-eye-fill"></i> Show Details
+                                        </a>
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>}
+            <div class="col-md-12">
+                <ul class="pages">
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Book Now</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="contact-form">
+                    <form action="#" id="contact">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <fieldset>
+                                    <input type="text" class="form-control" placeholder="Pick-up location" required="">
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-6">
+                                <fieldset>
+                                    <input type="text" class="form-control" placeholder="Return location" required="">
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <fieldset>
+                                    <input type="text" class="form-control" placeholder="Pick-up date/time" required="">
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-6">
+                                <fieldset>
+                                    <input type="text" class="form-control" placeholder="Return date/time" required="">
+                                </fieldset>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Enter full name" required="">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <fieldset>
+                                    <input type="text" class="form-control" placeholder="Enter email address" required="">
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-6">
+                                <fieldset>
+                                    <input type="text" class="form-control" placeholder="Enter phone" required="">
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Book Now </button>
+            </div>
+        </div>
+    </div>
+</div>

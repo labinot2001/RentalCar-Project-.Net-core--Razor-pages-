@@ -1,0 +1,72 @@
+﻿@*Define Model*@
+@*@model IEnumerable<ApplicationUser>*@
+@*Define ViewData*@
+@using X.PagedList
+@using X.PagedList.Mvc.Common
+@using X.PagedList.Mvc.Core
+@model IPagedList<ApplicationUser>
+@{
+    ViewBag.Title = "Admins";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@*Write Code*@
+<div class="row">
+    @using (Html.BeginForm("Admins", "Account", FormMethod.Get))
+    {
+        <p style="margin-top:10px; margin-left:30px">
+            <b>Find by name</b> : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        </p>
+    }
+    <div class="col-md-6 offset-0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("Full Name", "Admins", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+
+                    <th>
+                        @Html.ActionLink("Username", "Admins", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Email", "Admins", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<div class="col-md-6 offset-3">
+
+    <button class="btn-info">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </button>
+    @Html.PagedListPager(Model, page => Url.Action("Admins",
+   new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+
+
+
+<div style=" position: fixed; right:25px; bottom:65px  " class="text-white">
+    <a asp-controller="Account" asp-action="RegisterAdmin" class="btn btn-success"> <i class="bi bi-plus-circle"></i> Add New Admin </a>
+</div>
+
+

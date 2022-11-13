@@ -1,0 +1,68 @@
+﻿@*Define Model*@
+@*@model IEnumerable<ApplicationUser>*@
+@using X.PagedList
+@using X.PagedList.Mvc.Common
+@using X.PagedList.Mvc.Core
+@model IPagedList<ApplicationUser>
+@{
+    ViewData["Title"] = "List of Users";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@*Write Code*@
+<div class="row">
+    @using (Html.BeginForm("Users", "Account", FormMethod.Get))
+    {
+        <p style="margin-top:10px; margin-left:30px">
+            <b>Find by name</b> : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        </p>
+    }
+    <div class="col-md-6 offset-0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("Full Name", "Users", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+
+                    <th>
+                        @Html.ActionLink("Username", "Users", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Email", "Users", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+
+<div class="col-md-6 offset-3">
+
+    <button class="btn-info">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </button>
+    @Html.PagedListPager(Model, page => Url.Action("Users",
+   new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+
+

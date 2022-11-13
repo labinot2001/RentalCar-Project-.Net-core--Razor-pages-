@@ -1,0 +1,43 @@
+﻿@using RentalCar.Data.ViewModels;
+@model DetailsCarUserVM
+
+@{
+    ViewData["Title"] = "Contact Form details";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+}
+
+<div class="row text">
+    <div style="margin-top:120px" class="col-md-10 offset-1">
+        <p>
+            <h1> 
+            <i style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:orangered;">Details for order of</i>@Model.Users.FullName <b></b> 
+            <i style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:orangered;">with Id</i>  : <b>@Model.Users.Id</b>
+            </h1>
+        </p>
+
+        <table>
+            <colgroup>
+                <col span="2" style="background-color:red">
+                <col style="background-color:yellow">
+            </colgroup>
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>3476896</td>
+                <td>My first HTML</td>
+                <td>$53</td>
+            </tr>
+        </table>
+       
+        <div class="form-group">
+            <a class="btn btn-outline-success float-right" asp-action="EditProduct" asp-route-id="">Edit Details</a>
+            <a class="btn btn-outline-success float-right" asp-action="DeleteProduct" asp-route-id="">Delete</a>
+        </div>
+            </div>
+        </div>
+    </div>
+</div>

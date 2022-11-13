@@ -1,0 +1,251 @@
+﻿@using RentalCar.Data.ViewModels;
+@model IndexPagesVM
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    var count = 0;
+
+}
+
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+<div class="banner header-text">
+    <div class="owl-banner owl-carousel">
+        <div class="banner-item-01">
+            <div class="text-content">
+                <h4>Find your car today!</h4>
+                <h2>Safer.Faster.Easier.</h2>
+            </div>
+        </div>
+        <div class="banner-item-02">
+            <div class="text-content">
+                <h4>Find your car today!</h4>
+                <h2>From sealed cars to touchles rentals-your safety is our priority.</h2>
+            </div>
+        </div>
+        <div class="banner-item-03">
+            <div class="text-content">
+                <h4>Find your car today!</h4>
+                <h2>Book Now</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner Ends Here -->
+
+<div class="latest-products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h2>Offers</h2>
+                    <a asp-controller="Home" asp-action="Offers">view more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
+            @foreach (var item in Model.Cars)
+            {
+                count++;
+                if (count == 4)
+                    break;
+
+                <div class="col-md-4 col-xs-6 border-primary mb-3">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-header text-white bg-dark">
+                                    <p class="card-text">
+                                        <h5 class="card-title">
+                                            @item.Name
+
+                                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                            {
+                                                <a class="text-white float-right" asp-controller="Cars" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                            }
+                                        </h5>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+
+                                <img src="@item.ImageURL" width="125%" height="90%" alt="@item.Name">
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <p class="card-text">@item.Description</p>
+                                    <p style="font-size:12px;" class="card-text"><b>Rental: </b>@item.Rental.Name</p>
+                                    <p style="font-size:12px;" class="card-text"><b>Brand: </b>@item.Brand.FullName</p>
+                                    <p style="font-size:12px;" class="card-text"><b>Category: </b>@item.CarCategory</p>
+                                    <p class="card-text"><b>Start Date: </b>@item.StartDate.ToString("dd MMM yy")</p>
+                                    <p class="card-text"><b>End Date: </b>@item.EndDate.ToString("dd MMM yy")</p>
+                                    <p class="card-text ">
+                                        <b>Status: </b>
+                                        @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                        {
+                                            <span class="badge bg-success text-white">AVAILABLE</span> }
+                                        else if (DateTime.Now > item.EndDate)
+                                        {
+                                            <span class="badge bg-danger text-white">EXPIRED</span> }
+                                        else
+                                        {
+                                            <span class="badge bg-primary text-white">UPCOMING</span>}
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card-footer ">
+                                    <p class="card-text" style="display:flex;">
+                                        <a style="width:70%;font-size:13px;" class="btn btn-dark text-light @((DateTime.Now > item.EndDate) ? "disabled" : "")"
+                                           asp-controller="Orders"
+                                           asp-action="AddItemToShoppingCart"
+                                           asp-route-id="@item.Id">
+                                            <i class="bi bi-cart-plus "></i> Add to Cart (Price @item.Price.ToString("c"))
+                                        </a>
+                                        <a style="width:40%; font-size:13px;" class="btn btn-outline-dark float-right "asp-controller="Cars" asp-action="DetailsHome" asp-route-id="@item.Id">
+                                            <i class="bi bi-eye-fill "></i> Show Details
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>}
+        </div>
+    </div>
+</div>
+
+<div class="best-features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h2>About Us</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="left-content">
+                    <p>
+                        Rental Car  is a company dedicated to providing you with efficient low-cost car hire services . We take pride in offering reliable and flexible services with our All Inclusive Price Policy with No hidden costs or last minute surprises.
+Since the beginning we have built up excellent relationships with our customers. We know the importance of this, and believe in doing our most to make sure you receive the help you need before, during and after the booking.                        
+                    </p>
+                    <ul class="featured-list">
+                        <li><a href="#">Top Quality Service</a></li>
+                        <li><a href="#">Respond as quickly as possible</a></li>
+                        <li><a href="#">Listen to your customersr</a></li>
+                        <li><a href="#">Fix your mistakes</a></li>
+                    </ul>
+                    <a asp-controller="Home" asp-action="AboutUs" class="filled-button">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="right-image">
+                    <img src="~/assets/images/about-1-570x350.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="services" style="background-image: url(../assets/images/other-image-fullscren-1-1920x900.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h2>Latest blog posts</h2>
+
+                    <a asp-controller="Home" asp-action="Blog">read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="service-item">
+                    <a href="#" class="services-item-image"><img src="~/assets/images/blog-1-370x270.jpg" class="img-fluid" alt=""></a>
+
+                    <div class="down-content">
+                        <h4><a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit hic</a></h4>
+
+                        <p style="margin: 0;"> John Doe &nbsp;&nbsp;|&nbsp;&nbsp; 12/06/2020 10:30 &nbsp;&nbsp;|&nbsp;&nbsp; 114</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="service-item">
+                    <a href="#" class="services-item-image"><img src="~/assets/images/blog-2-370x270.jpg" class="img-fluid" alt=""></a>
+
+                    <div class="down-content">
+                        <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit</a></h4>
+
+                        <p style="margin: 0;"> John Doe &nbsp;&nbsp;|&nbsp;&nbsp; 12/06/2020 10:30 &nbsp;&nbsp;|&nbsp;&nbsp; 114</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="service-item">
+                    <a href="#" class="services-item-image"><img src="~/assets/images/blog-3-370x270.jpg" class="img-fluid" alt=""></a>
+
+                    <div class="down-content">
+                        <h4><a href="#">Aperiam modi voluptatum fuga officiis cumque</a></h4>
+
+                        <p style="margin: 0;"> John Doe &nbsp;&nbsp;|&nbsp;&nbsp; 12/06/2020 10:30 &nbsp;&nbsp;|&nbsp;&nbsp; 114</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="happy-clients">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h2>Happy Clients</h2>
+
+                    <a asp-controller="Home" asp-action="Testimonails">read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="owl-clients owl-carousel text-center">
+                    @foreach (var item in Model.Users)
+                    {
+                        <div class="service-item">
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="down-content">
+                                <h4>@item.FullName</h4>
+                                <p class="n-m"><em>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</em></p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="call-to-action">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="inner-content">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>Lorem ipsum dolor sit amet, consectetur adipisicing.</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque corporis amet elite author nulla.</p>
+                        </div>
+                        <div class="col-lg-4 col-md-6 text-right">
+                            <a asp-controller="Home" asp-action="Contact" class="filled-button">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

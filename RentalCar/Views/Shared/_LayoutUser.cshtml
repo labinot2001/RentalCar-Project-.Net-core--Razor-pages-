@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="icon" href="~/assets/images/favicon.ico">
+    <link href="~/assets/css/myStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+
+
+</head>
+<body>
+
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+    <!-- Header -->
+    <header class="">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index"><h2>Car Rental <em>Website</em></h2></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="mw-100 collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item @(ViewBag.Current == "Index" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item"><a class="nav-link @(ViewBag.Current == "Fleet" ? "active" : "")" asp-controller="Home" asp-action="Fleet">Fleet</a></li>
+                        <li id="activeBtn" class="nav-item"><a class="nav-link @(ViewBag.Current == "Offers" ? "active" : "")" asp-controller="Home" asp-action="Offers">Offers</a></li>
+
+                        <li class="nav-item dropdown @(ViewBag.Current == "Testimonails" ? "active" : "") | @(ViewBag.Current ==  "Team" ? "active" : "") | @(ViewBag.Current ==  "Blog" ? "active" : "") | @(ViewBag.Current ==  "Terms" ? "active" : "")">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Blog">Blog</a>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Team">Team</a>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Testimonials">Testimonials</a>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Terms">Terms</a>
+                            </div>
+                        </li>
+
+                        <li style="width:84px" class="nav-item @(ViewBag.Current == "AboutUs" ? "active" : "")"><a class="nav-link" asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+
+                        <li style="width:95px" class="nav-item @(ViewBag.Current == "Contact" ? "active" : "")"><a class="nav-link" asp-controller="Home" asp-action="Contact">Contact Us</a></li>
+
+                        <partial name="_Identity.cshtml" />
+
+                        @await Component.InvokeAsync("ShoppingCartSummary")
+
+
+                    </ul>
+                </div> 
+               
+            </div>
+        </nav>
+    </header>
+
+
+    @RenderBody()
+
+    <footer  class="footer-distributed">
+        <div style="height:100%" class="fotter-l">
+            <h3>CAR <span>RENTAL</span></h3>
+            <p class="footer-links">
+                <a asp-controller="Home" asp-action="Index">Home</a> <br>
+                <a asp-controller="Home" asp-action="Fleet">Cars</a> <br>
+                <a asp-controller="Home" asp-action="AboutUs">AboutUs</a> <br>
+                <a asp-controller="Home" asp-action="Contact">Contact</a> <br>
+                <a asp-controller="Home" asp-action="Offers">Offers</a> <br>
+                <a asp-controller="Home" asp-action="Blog">Blog</a> <br />
+                <a asp-controller="Home" asp-action="BlogDetails">Blog Details</a> <br />
+                <a asp-controller="Home" asp-action="Team">Team</a> <br />
+                <a asp-controller="Home" asp-action="Terms">Terms</a> <br />
+                <a asp-controller="Home" asp-action="Testimonials">Testimonails</a> <br />
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Contact" asp-action="Index">Admin Panel</a>
+                }
+
+
+            </p>
+            <p class="footer-company-name">
+                Copyright © 2022 <strong>CAR RENTAL</strong>
+                All rights reserved
+            </p>
+        </div>
+        <div class="footer-center">
+            <div>
+                <i class="fa fa-map-marker"></i>
+                <p>
+                    <span>Prishtinë,</span>
+                    Kosovë
+                </p>
+            </div>
+            <div>
+                <i class="fa fa-phone"></i>
+                <p>+383 49 000 000</p>
+            </div>
+            <div>
+                <i class="fa fa-envelope"></i>
+                <p><a href="#">car-rental@rental.com</a></p>
+            </div>
+        </div>
+        <div class="footer-right">
+            <p class="footer-company-about">
+                <span>About the company</span>
+                <strong>CAR RENTAL</strong> is a Rent a Car company where you can find
+                best cars.
+            </p>
+            <div class="footer-icons">
+                <a href="https://www.facebook.com/" class="fa fa-facebook"></a>
+                <a href="https://www.instagram.com/" class="fa fa-instagram"></a>
+                <a href="https://www.linkedin.com/?trk=guest_homepage-basic_nav-header-logo" class="fa fa-linkedin"></a>
+                <a href="https://twitter.com/" class="fa fa-twitter"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script src="~/assets/js/owl.js"></script>
+    @*<script src="~/vendor/bootstrap/js/bootstrap.js"></script>
+        <script src="~/vendor/bootstrap/js/bootstrap.bundle.js"></script>*@
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <link href="~/assets/css/fontawesome.css" rel="stylesheet" />
+    <link href="~/assets/css/owl.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
